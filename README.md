@@ -17,3 +17,21 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
 
+
+# Assorted Notes
+
+PATH_TO_ELIXIR: /home/ubuntu/.elixir-install/installs/elixir/1.18.1-otp-27/bin/elixir
+
+echo "export PATH=$PATH:/home/ubuntu/.elixir-install/installs/elixir/1.18.1-otp-27/bin" >> ~/.bashrc
+
+mix phx.server
+
+## Install Asset Dependencies
+
+```
+mix assets.setup
+
+cd assets
+npm install
+npm run deploy
+```
