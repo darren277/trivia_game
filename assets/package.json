@@ -1,0 +1,17 @@
+{
+    "name": "trivia_game",
+    "version": "1.0.0",
+    "scripts": {
+      "deploy": "webpack --mode production"
+    },
+    "dependencies": {
+      "phoenix": "file:../deps/phoenix",
+      "phoenix_html": "file:../deps/phoenix_html",
+      "phoenix_live_view": "file:../deps/phoenix_live_view"
+    },
+    "devDependencies": {
+      "webpack": "^5.0.0",
+      "webpack-cli": "^4.0.0"
+    }
+  }
+  
