@@ -23,7 +23,7 @@ defmodule TriviaGameWeb.Endpoint do
     at: "/",
     from: :trivia_game,
     gzip: false,
-    only: TriviaGameWeb.static_paths()
+    only: ~w(assets css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
