@@ -66,9 +66,8 @@ import_config "#{config_env()}.exs"
 
 config :trivia_game, TriviaGame.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "trivia_game_dev",
-  hostname: "localhost",
-  pool_size: 10
-
+  username: System.get_env("DB_USER", "postgres"),
+  password: System.get_env("DB_PASS", "postgres"),
+  database: System.get_env("DB_NAME", "trivia_game_dev"),
+  hostname: System.get_env("DB_HOST", "localhost"),
+  pool_size: String.to_integer(System.get_env("DB_POOL_SIZE", "10")
