@@ -9,11 +9,10 @@ defmodule TriviaGame.GameServer do
     GenServer.start_link(__MODULE__, %{room_id: room_id}, name: {:global, :"game_#{room_id}"})
   end
 
-  @impl true
-  def init(state) do
+  def init(%{room_id: room_id}) do
+    # Initialize state with current_question as nil
+    state = %{room_id: room_id, current_question: nil}
     IO.inspect(state, label: "GameServer Initial State")
-    # We store room_id in state so we can broadcast to the correct room
-    #{:ok, %{room_id: room_id, current_question: nil}}
     {:ok, state}
   end
 
@@ -38,12 +37,23 @@ defmodule TriviaGame.GameServer do
   # :start_question will broadcast a "new_question" event to all clients in "room:#{room_id}"
   @impl true
   def handle_cast({:start_question, question, choices}, state) do
-    IO.inspect(state, label: "GameServer State Before Start Question")
+    # Example: Assume the correct answer is always the last choice for simplicity
+    correct_answer = List.last(choices)
 
-    TriviaGameWeb.Endpoint.broadcast!("room:#{state.room_id}", "new_question", %{question: question, choices: choices})
+    new_state = %{
+      state
+      | current_question: %{
+          question: question,
+          choices: choices,
+          correct_answer: correct_answer
+        }
+    }
 
-    # Track the current question in memory
-    new_state = state |> Map.put(:current_question, %{question: question, choices: choices})
+    TriviaGameWeb.Endpoint.broadcast!("room:#{state.room_id}", "new_question", %{
+      question: question,
+      choices: choices
+    })
+
     IO.inspect(new_state, label: "GameServer State After Start Question")
     {:noreply, new_state}
   end

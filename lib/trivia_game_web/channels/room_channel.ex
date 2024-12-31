@@ -13,24 +13,18 @@ defmodule TriviaGameWeb.RoomChannel do
   end
 
   def handle_in("vote", %{"room_id" => room_id, "answer" => answer}, socket) do
-    # Extract the room ID from the topic
-    room_id = socket.topic |> String.replace_prefix("room:", "")
-
-    # Fetch the current question for the room (example logic; adjust as needed)
     current_question = TriviaGame.GameServer.get_current_question(room_id)
 
-    # Compare the user's answer to the correct answer
+    # Compare the user's answer with the correct answer
     correct = current_question.correct_answer == answer
 
-    # Broadcast the results to everyone in the room
+    # Broadcast the results to all clients
     broadcast!(socket, "vote:results", %{
-      user: socket.assigns.user_id || "anonymous",
+      room_id: room_id,
       correct: correct,
       correct_answer: current_question.correct_answer
     })
 
-    # Implement logic to handle votes
-    #broadcast_from(socket, "vote:results", %{room_id: room_id, correct_answer: 1}) # Example broadcast
     {:noreply, socket}
   end
 

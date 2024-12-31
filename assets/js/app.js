@@ -45,6 +45,16 @@ const resultsEl  = document.getElementById("results")
 const submitBtn  = document.getElementById("submit-answer")
 const startBtn   = document.getElementById("start-question")
 
+const answerInput = document.getElementById("answer");
+
+submitBtn.addEventListener("click", () => {
+  const answerText = answerInput.value;
+  if (answerText.trim() !== "") {
+    channel.push("vote", { room_id: roomId, answer: answerText });
+    answerInput.value = ""; // Clear the input
+  }
+});
+
 // 5) Handle events from the server ("new_question", "vote:results", etc.)
 
 // Listen for a new question being broadcast by the server
@@ -72,7 +82,12 @@ channel.on("new_question", (payload) => {
 
 // Listen for vote results
 channel.on("vote:results", (payload) => {
-  resultsEl.innerText = `Correct Answer: ${payload.correct_answer}`
+  //resultsEl.innerText = `Correct Answer: ${payload.correct_answer}`
+  if (payload.correct) {
+    resultsEl.innerText = "Correct! 🎉";
+  } else {
+    resultsEl.innerText = `Wrong. The correct answer was: ${payload.correct_answer}`;
+  }
 })
 
 // 6) Join the channel & log success/failure
@@ -85,7 +100,8 @@ if (startBtn) {
   startBtn.addEventListener("click", () => {
     channel.push("start_question", {
       question: "What is the capital of France?",
-      choices: ["Berlin", "London", "Paris", "Madrid"]
+      choices: ["Berlin", "London", "Madrid", "Paris"],
+      correct_answer: "Paris"
     })
   })
 }
@@ -106,7 +122,7 @@ function showQuestion(question, options) {
 }
 
 // 9) Example: Simulate a question 2 seconds after page load
-setTimeout(() => {
-  showQuestion("What is 2 + 2?", ["1", "2", "3", "4"])
-  if (submitBtn) submitBtn.disabled = false
-}, 2000)
+// setTimeout(() => {
+//   showQuestion("What is 2 + 2?", ["1", "2", "3", "4"])
+//   if (submitBtn) submitBtn.disabled = false
+// }, 2000)
