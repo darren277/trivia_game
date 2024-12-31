@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Room <%= @room_id %></title>
-  <script src="/assets/app.js"></script>
 </head>
 <body>
   <h1>Welcome to Room <%= @room_id %></h1>
@@ -13,8 +12,13 @@
     <ul id="answers">
       <!-- Answers will be populated dynamically -->
     </ul>
-    <button id="submit-answer" disabled>Submit Answer</button>
+    <input id="answer" type="text" placeholder="Your answer">
+    <button id="submit-answer">Submit Answer</button>
   </div>
   <p id="results"></p>
+
+  <button id="start-question">Start Question</button>
+
+  <script src="/assets/app.js"></script>
 </body>
 </html>
