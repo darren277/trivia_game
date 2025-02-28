@@ -1,5 +1,11 @@
 # TriviaGame
 
+## About
+
+This is a multiplayer trivia game built in Elixir and using the Phoenix framework. It is a work in progress.
+
+## How to Use
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
